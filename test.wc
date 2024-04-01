@@ -1,0 +1,6 @@
+?#Which features are included with Elastic Load Balancing (ELB)? (Select TWO.)
+	@#Integrating with Amazon EC2 Auto Scaling
+	!#Using artificial intelligence (AI) to categorize employee photos
+	!#Using vertical scaling for Amazon EC2 instances
+    @#Directing incoming traffic to instances
+	!#Deploying new instances as required
