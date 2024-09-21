@@ -1,91 +1,206 @@
 # WhiteCards.py
 from tkinter import *
 
+# Window
 root = Tk()
 root.title("White Cards")
 root.configure(background="grey")
 root.geometry("1200x700")
 root.maxsize(1200, 700)
 
-file = open("test.wc", "r")
+# Variables
 test = {}
 totalQuestions = 0
-count = 0
+currentQuestion = 1
+rightAnswers = 0
+partsCount = 0
+
+statusA = IntVar()
+statusB = IntVar()
+statusC = IntVar()
+statusD = IntVar()
+statusE = IntVar()
+statusF = IntVar()
+statusG = IntVar()
+
 
 # Read file to array (?# = Question, !# = Possible Answers, @# = Right Answers)
-
+file = open("test.wc", "r")
 for line in file:
+
     line = line.lstrip()
     line = line.rstrip()
     newLine = line.split("#")
-    print(newLine[0])
+    
     if len(newLine) == 2:
-        test[totalQuestions,count] = line
-    else:
-        print("Error incorrect test format!")
-    count += 1
+        if newLine[0] == "?":
+            totalQuestions += 1
+            partsCount = 0
+            test[totalQuestions, partsCount] = newLine[1]
+
+        elif newLine[0] == "!" or newLine[0] == "@":
+            partsCount += 1
+            test[totalQuestions, partsCount] = line
     
 
+def createNextQuestion():
+    print("createNextQuestion")
 
-# Basic
-# Present question and possible answers
-# Validate answer + Show right answer
-# Count number of right answers
-# Present final total
-
-# Extra Features
-# Randomize Questions
-# Early Quit Button
-
-
-def submit():
-    print("Answer Submited")
-
-def createQuestion():
-    ln = test[0,0].split("#")
-    qs = ln[1]
-    Question = Label(root, text=qs, wraplength=1120, justify=LEFT)
+    Question = Label(root, text=test[currentQuestion, 0], wraplength=1120, justify=LEFT)
     Question.pack(side="top", anchor="nw", padx=40, pady=25)
     Question.config(font=("Font", 18))
 
-    statusA = IntVar()
-    answerA = Checkbutton(root, text=test[0,1], variable=statusA, wraplength=1000, justify=LEFT)
-    answerA.pack(side="top", anchor="nw", padx=70, pady=8)
-    answerA.config(font=("Font", 15))
+    if test.get((currentQuestion, 1)) != None:
+        tempText = test[currentQuestion, 1].split("#")[1]
+        answerA = Checkbutton(root, text=tempText, variable=statusA, wraplength=1000, justify=LEFT)
+        answerA.pack(side="top", anchor="nw", padx=70, pady=8)
+        answerA.config(font=("Font", 15))
 
-    statusB = IntVar()
-    answerB = Checkbutton(root, text=test[0,2], variable=statusB, wraplength=1000, justify=LEFT)
-    answerB.pack(side="top", anchor="nw", padx=70, pady=8)
-    answerB.config(font=("Font", 15))
+    if test.get((currentQuestion, 2)) != None:
+        tempText = test[currentQuestion, 2].split("#")[1]
+        answerB = Checkbutton(root, text=tempText, variable=statusB, wraplength=1000, justify=LEFT)
+        answerB.pack(side="top", anchor="nw", padx=70, pady=8)
+        answerB.config(font=("Font", 15))
 
-    statusC = IntVar()
-    answerC = Checkbutton(root, text=test[0,3], variable=statusC, wraplength=1000, justify=LEFT)
-    answerC.pack(side="top", anchor="nw", padx=70, pady=8)
-    answerC.config(font=("Font", 15))
+    if test.get((currentQuestion, 3)) != None:
+        tempText = test[currentQuestion, 3].split("#")[1]
+        answerC = Checkbutton(root, text=tempText, variable=statusC, wraplength=1000, justify=LEFT)
+        answerC.pack(side="top", anchor="nw", padx=70, pady=8)
+        answerC.config(font=("Font", 15))
 
-    statusD = IntVar()
-    answerD = Checkbutton(root, text=test[0,4], variable=statusD, wraplength=1000, justify=LEFT)
-    answerD.pack(side="top", anchor="nw", padx=70, pady=8)
-    answerD.config(font=("Font", 15))
+    if test.get((currentQuestion, 4)) != None:
+        tempText = test[currentQuestion, 4].split("#")[1]
+        answerD = Checkbutton(root, text=tempText, variable=statusD, wraplength=1000, justify=LEFT)
+        answerD.pack(side="top", anchor="nw", padx=70, pady=8)
+        answerD.config(font=("Font", 15))
 
-    statusE = IntVar()
-    answerE = Checkbutton(root, text=test[0,5], variable=statusE, wraplength=1000, justify=LEFT)
-    answerE.pack(side="top", anchor="nw", padx=70, pady=8)
-    answerE.config(font=("Font", 15))
+    if test.get((currentQuestion, 5)) != None:
+        tempText = test[currentQuestion, 5].split("#")[1]
+        answerE = Checkbutton(root, text=tempText, variable=statusE, wraplength=1000, justify=LEFT)
+        answerE.pack(side="top", anchor="nw", padx=70, pady=8)
+        answerE.config(font=("Font", 15))
 
-    statusF = IntVar()
-    answerF = Checkbutton(root, text="this is a very very vyer aflajlkgjalk long question that I need to ask to check what it looks like when there is a giant questionAsk a Question? Ask a Question? this is a very very vyer aflajlkgjalk long question that I need to ask to check what it looks like when there is a giant question", variable=statusF, wraplength=1000, justify=LEFT)
-    answerF.pack(side="top", anchor="nw", padx=70, pady=8)
-    answerF.config(font=("Font", 15))
+    if test.get((currentQuestion, 6)) != None:
+        tempText = test[currentQuestion, 6].split("#")[1]
+        answerF = Checkbutton(root, text=tempText, variable=statusF, wraplength=1000, justify=LEFT)
+        answerF.pack(side="top", anchor="nw", padx=70, pady=8)
+        answerF.config(font=("Font", 15))
 
-    Count = Label(root, text="1/20")
+    if test.get((currentQuestion, 7)) != None:
+        tempText = test[currentQuestion, 7].split("#")[1]
+        answerG = Checkbutton(root, text=tempText, variable=statusG, wraplength=1000, justify=LEFT)
+        answerG.pack(side="top", anchor="nw", padx=70, pady=8)
+        answerG.config(font=("Font", 15))
+        answerG.pack_forget()
+
+    # Bottom Info
+    questionCounter = str(currentQuestion) + "/" + str(totalQuestions)
+    Count = Label(root, text=questionCounter)
     Count.pack(side="bottom", anchor="s", padx=30, pady=7)
     Count.config(font=("Font", 14))
 
-    submit_button = Button(root, text="Done", height=2, width=5, command=submit)
+    # Submit Button
+    submit_button = Button(root, text="Done", height=2, width=5, command=submitAnswer)
     submit_button.pack(side="bottom", anchor="se", padx=30)
 
-createQuestion()
+
+def showResults():
+    print("showResults") 
+
+    print(str(rightAnswers) + "/" + str(totalQuestions))
 
 
+def clearCard():
+    print("clearCard") 
+
+    for child in root.winfo_children():
+        child.destroy() 
+
+    statusA.set(0)
+    statusB.set(0)
+    statusC.set(0)
+    statusD.set(0)
+    statusE.set(0)
+    statusF.set(0)
+    statusG.set(0)
+
+
+def validateAnswer():
+    print("validateAnswer") 
+
+    isRightAnswer = True
+
+    if test.get((currentQuestion, 1)) != None:
+        if test[currentQuestion, 1].split("#")[0] == "!" and statusA.get() == 1:
+            isRightAnswer = False
+        if test[currentQuestion, 1].split("#")[0] == "@" and statusA.get() == 0:
+            isRightAnswer = False
+
+    if test.get((currentQuestion, 2)) != None:
+        if test[currentQuestion, 2].split("#")[0] == "!" and statusB.get() == 1:
+            isRightAnswer = False
+        if test[currentQuestion, 2].split("#")[0] == "@" and statusB.get() == 0:
+            isRightAnswer = False
+
+    if test.get((currentQuestion, 3)) != None:
+        if test[currentQuestion, 3].split("#")[0] == "!" and statusB.get() == 1:
+            isRightAnswer = False
+        if test[currentQuestion, 3].split("#")[0] == "@" and statusB.get() == 0:
+            isRightAnswer = False
+
+    if test.get((currentQuestion, 4)) != None:
+        if test[currentQuestion, 4].split("#")[0] == "!" and statusB.get() == 1:
+            isRightAnswer = False
+        if test[currentQuestion, 4].split("#")[0] == "@" and statusB.get() == 0:
+            isRightAnswer = False
+
+    if test.get((currentQuestion, 5)) != None:
+        if test[currentQuestion, 5].split("#")[0] == "!" and statusB.get() == 1:
+            isRightAnswer = False
+        if test[currentQuestion, 5].split("#")[0] == "@" and statusB.get() == 0:
+            isRightAnswer = False
+
+    if test.get((currentQuestion, 6)) != None:
+        if test[currentQuestion, 6].split("#")[0] == "!" and statusB.get() == 1:
+            isRightAnswer = False
+        if test[currentQuestion, 6].split("#")[0] == "@" and statusB.get() == 0:
+            isRightAnswer = False
+
+    if test.get((currentQuestion, 7)) != None:
+        if test[currentQuestion, 7].split("#")[0] == "!" and statusB.get() == 1:
+            isRightAnswer = False
+        if test[currentQuestion, 7].split("#")[0] == "@" and statusB.get() == 0:
+            isRightAnswer = False
+
+    if isRightAnswer == True:
+        global rightAnswers
+        rightAnswers += 1
+
+    print("isRightAnswer: ", isRightAnswer)
+
+
+def submitAnswer():
+    print("submitAnswer") 
+
+    validateAnswer()
+    clearCard()
+
+    global currentQuestion
+    currentQuestion += 1
+
+    if currentQuestion > totalQuestions:
+        showResults()
+    else: 
+        createNextQuestion()
+
+
+# Start Of Test
+print("TotalQuestion: ", totalQuestions)
+print("currentQuestion: ", currentQuestion)
+
+createNextQuestion()
 root.mainloop()
+
+
+
+
