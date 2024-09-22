@@ -14,6 +14,7 @@ totalQuestions = 0
 currentQuestion = 1
 rightAnswers = 0
 partsCount = 0
+wasRightAnswer = False
 
 statusA = IntVar()
 statusB = IntVar()
@@ -44,10 +45,8 @@ for line in file:
     
 
 def createNextQuestion():
-    print("createNextQuestion")
-
     Question = Label(root, text=test[currentQuestion, 0], wraplength=1120, justify=LEFT)
-    Question.pack(side="top", anchor="nw", padx=40, pady=25)
+    Question.pack(side="top", anchor="nw", padx=30, pady=25)
     Question.config(font=("Font", 18))
 
     if test.get((currentQuestion, 1)) != None:
@@ -100,19 +99,11 @@ def createNextQuestion():
     Count.config(font=("Font", 14))
 
     # Submit Button
-    submit_button = Button(root, text="Done", height=2, width=5, command=submitAnswer)
+    submit_button = Button(root, text="Done", height=3, width=8, command=validateAnswer)
     submit_button.pack(side="bottom", anchor="se", padx=30)
 
 
-def showResults():
-    print("showResults") 
-
-    print(str(rightAnswers) + "/" + str(totalQuestions))
-
-
 def clearCard():
-    print("clearCard") 
-
     for child in root.winfo_children():
         child.destroy() 
 
@@ -125,69 +116,90 @@ def clearCard():
     statusG.set(0)
 
 
-def validateAnswer():
-    print("validateAnswer") 
+def showAnswer():
+    answerText = "True" if wasRightAnswer else "False"
+    AnswerLabel = Label(root, text=answerText, wraplength=1120, justify=LEFT)
+    AnswerLabel.pack(side="top", anchor="nw", padx=60, pady=25)
+    AnswerLabel.config(font=("Font", 18))
 
-    isRightAnswer = True
+    totalText = str(rightAnswers) + " / " + str(currentQuestion)
+    TotalSoFar = Label(root, text=totalText, wraplength=1120, justify=LEFT)
+    TotalSoFar.pack(side="top", anchor="nw", padx=60, pady=10)
+    TotalSoFar.config(font=("Font", 18))
+
+    questionCounter = str(currentQuestion) + "/" + str(totalQuestions)
+    Count = Label(root, text=questionCounter)
+    Count.pack(side="bottom", anchor="s", padx=30, pady=7)
+    Count.config(font=("Font", 14))
+
+    submit_button = Button(root, text="Next Question", height=3, width=8, command=continueTest)
+    submit_button.pack(side="bottom", anchor="se", padx=30)
+
+
+def validateAnswer():
+    global wasRightAnswer
+    wasRightAnswer = True
 
     if test.get((currentQuestion, 1)) != None:
         if test[currentQuestion, 1].split("#")[0] == "!" and statusA.get() == 1:
-            isRightAnswer = False
+            wasRightAnswer = False
         if test[currentQuestion, 1].split("#")[0] == "@" and statusA.get() == 0:
-            isRightAnswer = False
+            wasRightAnswer = False
 
     if test.get((currentQuestion, 2)) != None:
         if test[currentQuestion, 2].split("#")[0] == "!" and statusB.get() == 1:
-            isRightAnswer = False
+            wasRightAnswer = False
         if test[currentQuestion, 2].split("#")[0] == "@" and statusB.get() == 0:
-            isRightAnswer = False
+            wasRightAnswer = False
 
     if test.get((currentQuestion, 3)) != None:
-        if test[currentQuestion, 3].split("#")[0] == "!" and statusB.get() == 1:
-            isRightAnswer = False
-        if test[currentQuestion, 3].split("#")[0] == "@" and statusB.get() == 0:
-            isRightAnswer = False
+        if test[currentQuestion, 3].split("#")[0] == "!" and statusC.get() == 1:
+            wasRightAnswer = False
+        if test[currentQuestion, 3].split("#")[0] == "@" and statusC.get() == 0:
+            wasRightAnswer = False
 
     if test.get((currentQuestion, 4)) != None:
-        if test[currentQuestion, 4].split("#")[0] == "!" and statusB.get() == 1:
-            isRightAnswer = False
-        if test[currentQuestion, 4].split("#")[0] == "@" and statusB.get() == 0:
-            isRightAnswer = False
+        if test[currentQuestion, 4].split("#")[0] == "!" and statusD.get() == 1:
+            wasRightAnswer = False
+        if test[currentQuestion, 4].split("#")[0] == "@" and statusD.get() == 0:
+            wasRightAnswer = False
 
     if test.get((currentQuestion, 5)) != None:
-        if test[currentQuestion, 5].split("#")[0] == "!" and statusB.get() == 1:
-            isRightAnswer = False
-        if test[currentQuestion, 5].split("#")[0] == "@" and statusB.get() == 0:
-            isRightAnswer = False
+        if test[currentQuestion, 5].split("#")[0] == "!" and statusE.get() == 1:
+            wasRightAnswer = False
+        if test[currentQuestion, 5].split("#")[0] == "@" and statusE.get() == 0:
+            wasRightAnswer = False
 
     if test.get((currentQuestion, 6)) != None:
-        if test[currentQuestion, 6].split("#")[0] == "!" and statusB.get() == 1:
-            isRightAnswer = False
-        if test[currentQuestion, 6].split("#")[0] == "@" and statusB.get() == 0:
-            isRightAnswer = False
+        if test[currentQuestion, 6].split("#")[0] == "!" and statusF.get() == 1:
+            wasRightAnswer = False
+        if test[currentQuestion, 6].split("#")[0] == "@" and statusF.get() == 0:
+            wasRightAnswer = False
 
     if test.get((currentQuestion, 7)) != None:
-        if test[currentQuestion, 7].split("#")[0] == "!" and statusB.get() == 1:
-            isRightAnswer = False
-        if test[currentQuestion, 7].split("#")[0] == "@" and statusB.get() == 0:
-            isRightAnswer = False
+        if test[currentQuestion, 7].split("#")[0] == "!" and statusG.get() == 1:
+            wasRightAnswer = False
+        if test[currentQuestion, 7].split("#")[0] == "@" and statusG.get() == 0:
+            wasRightAnswer = False
 
-    if isRightAnswer == True:
+    if wasRightAnswer == True:
         global rightAnswers
         rightAnswers += 1
 
-    print("isRightAnswer: ", isRightAnswer)
-
-
-def submitAnswer():
-    print("submitAnswer") 
-
-    validateAnswer()
     clearCard()
+    showAnswer()
 
+
+def showResults():
+    print(str(rightAnswers) + "/" + str(totalQuestions))
+
+
+def continueTest():
     global currentQuestion
+    print(rightAnswers, "/", currentQuestion, "/", totalQuestions)
     currentQuestion += 1
 
+    clearCard()
     if currentQuestion > totalQuestions:
         showResults()
     else: 
@@ -200,7 +212,4 @@ print("currentQuestion: ", currentQuestion)
 
 createNextQuestion()
 root.mainloop()
-
-
-
 
